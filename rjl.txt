@@ -1,0 +1,88 @@
+from collections import defaultdict
+
+class Hash:   
+    
+    def __init__ (self):
+        self.__HashTable = defaultdict(list)        
+        self.colisions = 0
+
+    def hashFunction(self, name =""): #хэш функция
+        n = len(name) % 10
+        return n
+
+    def add(self):
+        data = []
+        print("Введите элементы для добавления в хэш-таблицу \nДля остановки ввода введите ключевое слово 'STOP!'")
+        while(True):
+            name = input()
+            if(name == "STOP!"):
+                self.colision(data)                
+                break
+            else:
+                data.append(name)          
+            
+        
+    def prit(self):#вывод масс.
+        print(self.__HashTable)
+        
+
+    def colision(self,data):        
+        k = len(data)
+        for i in range(k):
+            if(self.hashFunction(data[i]) in self.__HashTable):
+                self.colisions = self.colisions + 1
+                self.__HashTable[int(self.hashFunction(data[i]))].append(data[i]) 
+            else:                
+                self.__HashTable[int(self.hashFunction(data[i]))].append(data[i])
+    
+    def delete_obj(self):
+        print("Введите элемент для удаления")
+        name = input()
+        for key in self.__HashTable:
+            for z in self.__HashTable[key]:
+                if (z == name):
+                    self.__HashTable[key].pop(self.__HashTable[key].index(z))
+                    if len(self.__HashTable[key]) == 0:
+                        del self.__HashTable[key]
+                        self.prit()
+                        return 0
+        
+        self.prit()        
+
+    def delete_hesh(self):
+        print("Введите элемент для удаления")
+        name = input()
+        del self.__HashTable[int(name)]
+        self.prit()
+    
+    def sorte(self):
+        print("Сортировка выполнена")
+        for k in sorted(self.__HashTable.keys()):
+            self.__HashTable[k] = self.__HashTable[k]
+            print (k, ':', self.__HashTable[k])  
+
+    def col_colisio(self):
+        print("Кол-во коллизий",self.colisions)
+
+    def search(self):
+        print("Введите элемент для поиска")
+        name = input()
+        for key in self.__HashTable:
+            for z in self.__HashTable[key]:
+                if (z == name):
+                    print("Элемент найден под адресом - ", key)
+                    
+
+    
+
+def main():
+    table = Hash()#создание элемента класса    
+    table.add()#добавление элементов на обработку
+    table.prit()
+    table.delete_obj()
+    table.delete_hesh()
+    table.search()    
+    table.sorte()
+    table.col_colisio()
+
+main()
